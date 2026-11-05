@@ -1,7 +1,6 @@
 #Detecção de Encontros
 
-Algoritmo em TypeScript (Node.js) que processa dados de geolocalização e detecta encontros físicos 
-entre monitorados (tornozeleiras) e vítimas de medidas protetivas.
+Algoritmo em TypeScript (Node.js) que processa dados de geolocalização e detecta encontros físicos entre monitorados (tornozeleiras) e vítimas de medidas protetivas.
 
 ## O que não está incluído neste repositório
 
@@ -20,15 +19,25 @@ npm install
 Coloque `dataset1.txt` a `dataset7.txt` na pasta `data/` e rode:
 ```
 npx tsx src/index.ts dataset1
+npx tsx src/index.ts dataset2
+npx tsx src/index.ts dataset3
+npx tsx src/index.ts dataset4
+npx tsx src/index.ts dataset5
 npx tsx src/indexStream.ts dataset6
 npx tsx src/indexStream.ts dataset7
-npx tsx src/validate.ts 1
 ```
 - `index.ts`: leitura simples, usada nos datasets 1 a 5.
 - `indexStream.ts`: leitura em streaming, necessária para os datasets 6 e 7 (grandes demais para a memória).
 - `validate.ts`: compara com `data/respostas1.json` e `respostas2.json` (só datasets 1 e 2).
 
 Os resultados são gravados na pasta `output/`.
+
+Para validar (só os datasets 1 e 2, que têm gabarito):
+
+```
+npx tsx src/validate.ts 1
+npx tsx src/validate.ts 2
+```
 
 ## Estrutura
 
@@ -73,6 +82,9 @@ A versão streaming exige que o arquivo esteja ordenado por timestamp. O program
 | dataset5 | 1.000.000 | 21 | 6,2 s |
 | dataset6 | 8.000.000 | 0 | 22,1 s |
 | dataset7 | 12.000.000 | 0 | 29,6 s |
+
+Nota: no dataset7 (12.000.000 de registros) nenhum par ficou a menos de 20 m no mesmo timestamp, portanto `output/dataset7.json` contém um array vazio (`[]`). 
+O arquivo foi lido por completo e a ordenação por timestamp foi validada.
 
 Complexidade por timestamp: 0(k^2), com k = registros daquele instante.
 
